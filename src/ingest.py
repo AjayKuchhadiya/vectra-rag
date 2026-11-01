@@ -1,9 +1,8 @@
 from src.document_loader import load_documents
 from src.chunker import chunk_documents
 from src.embedding import generate_embeddings
+from src.config import PINECONE_NAMESPACE
 from src.pinecone_client import get_pinecone_index
-
-NAMESPACE = "it-knowledge-base"
 
 
 def ingest_documents():
@@ -39,7 +38,7 @@ def ingest_documents():
     index = get_pinecone_index()
 
     response = index.documents.upsert(
-        namespace=NAMESPACE,
+        namespace=PINECONE_NAMESPACE,
         documents=documents_to_upsert
     )
 

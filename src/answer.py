@@ -2,8 +2,7 @@
 from src.retriever import retrieve_documents
 from src.generator import generate_answer
 from src.pii import redact_pii
-
-SIMILARITY_THRESHOLD = 0.25
+from src.config import SIMILARITY_THRESHOLD
 
 ABSTAIN_MESSAGE = (
     "I could not find this information in the knowledge base. "

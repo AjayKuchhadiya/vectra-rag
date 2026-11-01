@@ -1,5 +1,7 @@
 import re
 
+from src.config import MAX_CHUNK_SIZE
+
 
 def split_into_sections(content):
     """
@@ -19,7 +21,7 @@ def split_into_sections(content):
     ]
 
 
-def chunk_document(document, max_chunk_size=1200):
+def chunk_document(document, max_chunk_size=MAX_CHUNK_SIZE):
 
     sections = split_into_sections(document["content"])
 

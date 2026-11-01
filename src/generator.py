@@ -2,7 +2,7 @@
 import json
 
 from openai import OpenAI
-from src.config import OPENAI_API_KEY, CHAT_MODEL
+from src.config import CHAT_TEMPERATURE, OPENAI_API_KEY, CHAT_MODEL
 
 client = OpenAI(api_key=OPENAI_API_KEY)
 
@@ -84,7 +84,7 @@ Return JSON only.
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt}
         ],
-        temperature=0,
+        temperature=CHAT_TEMPERATURE,
         response_format={"type": "json_object"}
     )
 

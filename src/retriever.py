@@ -1,14 +1,14 @@
 
 from pinecone import DenseVectorQuery
 
+from src.config import PINECONE_NAMESPACE, RETRIEVAL_TOP_K
 from src.embedding import generate_embeddings
 from src.pinecone_client import get_pinecone_index
 
-NAMESPACE = "it-knowledge-base"
 VECTOR_FIELD = "embeddings"
 
 
-def retrieve_documents(question, top_k=3):
+def retrieve_documents(question, top_k=RETRIEVAL_TOP_K):
     """
     Retrieve relevant knowledge-base chunks using
     OpenAI embeddings and Pinecone document search.
@@ -22,7 +22,7 @@ def retrieve_documents(question, top_k=3):
 
     # 3. Search the document index
     results = index.documents.search(
-        namespace=NAMESPACE,
+        namespace=PINECONE_NAMESPACE,
         top_k=top_k,
         score_by=[
             DenseVectorQuery(
