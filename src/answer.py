@@ -1,6 +1,7 @@
 
 from src.retriever import retrieve_documents
 from src.generator import generate_answer
+from src.pii import redact_pii
 
 SIMILARITY_THRESHOLD = 0.25
 
@@ -20,7 +21,12 @@ def abstain():
 
 def answer(question):
     # 1. Retrieve relevant chunks
-    retrieved_chunks = retrieve_documents(question)
+
+    # Redact PII before sending the question to external APIs
+    safe_question = redact_pii(question)
+
+    # Retrieve documents using the redacted question
+    retrieved_chunks = retrieve_documents(safe_question)
 
     if not retrieved_chunks:
         return abstain()
@@ -34,7 +40,7 @@ def answer(question):
         return abstain()
 
     # 3. Generate structured answer
-    result = generate_answer(question, retrieved_chunks)
+    result = generate_answer(safe_question, retrieved_chunks)
 
     # 4. Validate the response structure
     required_fields = {"answer", "citations", "abstained"}
