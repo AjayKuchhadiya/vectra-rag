@@ -5,6 +5,25 @@ Markdown knowledge base. It retrieves relevant content from Pinecone, generates
 grounded answers with OpenAI, redacts common PII from questions before external
 calls, and abstains when it cannot provide a supported answer.
 
+## Architecture
+
+The application follows a modular RAG architecture.
+
+1. **Document loading:** Reads approved Markdown knowledge-base documents and extracts metadata.
+2. **Chunking:** Splits documents into heading-aware chunks while preserving relevant sections and tables.
+3. **Embedding generation:** Uses OpenAI `text-embedding-3-small` to generate 1,536-dimensional embeddings.
+4. **Vector storage:** Stores document chunks, embeddings and metadata in Pinecone.
+5. **Retrieval:** Converts employee questions into embeddings and retrieves the top three relevant chunks using cosine similarity.
+6. **Answer generation:** Uses OpenAI `gpt-4.1-mini` to generate answers grounded in retrieved context.
+7. **Validation:** Checks response structure, abstention status and citation membership before returning the response.
+8. **PII protection:** Masks supported email, phone-number and employee-ID patterns before external API calls.
+
+The assistant returns a structured response containing:
+
+- `answer`: Generated answer for the employee.
+- `citations`: Referenced knowledge-base document IDs.
+- `abstained`: Indicates whether the assistant declined to answer due to insufficient evidence.
+
 ## Requirements
 
 - Python
